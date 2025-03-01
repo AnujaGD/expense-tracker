@@ -1,0 +1,115 @@
+API Documentation for ExpenseController
+
+1. Create Expense
+	•	Endpoint: POST /api/expenses
+	•	Description: Creates a new expense record.
+	•	Request Body:
+
+{
+  "description": "Lunch at restaurant",
+  "amount": 15.50,
+  "category": "Food",
+  "date": "2025-02-09"
+}
+
+	•	description: A brief description of the expense.
+	•	amount: The amount spent on the expense.
+	•	category: The category of the expense (e.g., “Food”, “Transportation”).
+	•	date: The date the expense was incurred.
+
+	•	Response:
+	•	Status Code: 201 Created
+	•	Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c52",
+  "description": "Lunch at restaurant",
+  "amount": 15.50,
+  "category": "Food",
+  "date": "2025-02-09"
+}
+
+2. Delete Expense
+	•	Endpoint: DELETE /api/expenses
+	•	Description: Deletes an existing expense by passing the expense object in the request body.
+	•	Request Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c52",
+  "description": "Lunch at restaurant",
+  "amount": 15.50,
+  "category": "Food",
+  "date": "2025-02-09"
+}
+
+
+	•	Response:
+	•	Status Code: 200 OK (Indicates successful deletion)
+
+3. Get Expense
+	•	Endpoint: GET /api/expenses
+	•	Description: Retrieves an expense based on the provided ID.
+	•	Request Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c52"
+}
+
+
+	•	Response:
+	•	Status Code: 200 OK
+	•	Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c52",
+  "description": "Lunch at restaurant",
+  "amount": 15.50,
+  "category": "Food",
+  "date": "2025-02-09"
+}
+
+4. Update Expense
+	•	Endpoint: POST /api/expenses/update
+	•	Description: Updates an existing expense record.
+	•	Request Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c52",
+  "description": "Dinner at restaurant",
+  "amount": 18.00,
+  "category": "Food",
+  "date": "2025-02-09"
+}
+
+
+	•	Response:
+	•	Status Code: 201 Created (indicates the expense has been updated)
+	•	Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c52",
+  "description": "Dinner at restaurant",
+  "amount": 18.00,
+  "category": "Food",
+  "date": "2025-02-09"
+}
+
+Expense Entity Class
+
+This class represents an expense entity that is stored in the MongoDB database.
+	•	Fields:
+	•	id: Unique identifier for the expense.
+	•	description: Description of the expense.
+	•	amount: Amount spent on the expense.
+	•	category: Category of the expense (e.g., “Food”, “Transportation”).
+	•	date: Date when the expense was incurred.
+	•	Constructor:
+	•	Expense(String description, double amount): Initializes the description and amount fields.
+	•	Getters and Setters:
+	•	Get and set methods for each field (id, description, amount, category, and date).
+
+Error Handling
+	•	400 Bad Request: If the request body is invalid or missing required fields.
+	•	404 Not Found: If the expense with the provided ID does not exist.
+	•	500 Internal Server Error: For any internal server errors.
+

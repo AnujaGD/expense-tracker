@@ -1,0 +1,180 @@
+Here is the documentation for your API endpoints along with the Receipt entity.
+
+API Documentation
+
+1. Create or Update Receipt
+	•	Endpoint: POST /api/receipts
+	•	Description: Creates a new receipt or updates an existing one.
+	•	Request Body:
+
+{
+  "receiptNumber": "12345",
+  "date": "2025-02-09",
+  "vendor": "MONTANA RESTAURANT",
+  "expenses": [
+    {
+      "item": "CHICKEN BURGER",
+      "amount": 8.79
+    },
+    {
+      "item": "FRENCH FRIES",
+      "amount": 3.79
+    }
+  ]
+}
+
+	•	receiptNumber: A unique identifier for the receipt.
+	•	date: The date of the receipt.
+	•	vendor: The name of the vendor.
+	•	expenses: A list of items, each with an item name and amount (expense amount).
+
+	•	Response:
+	•	Status Code: 200 OK
+	•	Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c50",
+  "receiptNumber": "12345",
+  "date": "2025-02-09",
+  "vendor": "MONTANA RESTAURANT",
+  "expenses": [
+    {
+      "item": "CHICKEN BURGER",
+      "amount": 8.79
+    },
+    {
+      "item": "FRENCH FRIES",
+      "amount": 3.79
+    }
+  ],
+  "totalAmount": 12.58
+}
+
+2. Get Receipt by ID
+	•	Endpoint: GET /api/receipts/{id}
+	•	Description: Retrieves a receipt by its ID.
+	•	Path Parameter:
+	•	id: The unique ID of the receipt to retrieve.
+	•	Response:
+	•	Status Code:
+	•	200 OK (If the receipt is found)
+	•	404 Not Found (If the receipt does not exist)
+	•	Body:
+
+{
+  "id": "605c72ef153207d4bc9a6c50",
+  "receiptNumber": "12345",
+  "date": "2025-02-09",
+  "vendor": "MONTANA RESTAURANT",
+  "expenses": [
+    {
+      "item": "CHICKEN BURGER",
+      "amount": 8.79
+    },
+    {
+      "item": "FRENCH FRIES",
+      "amount": 3.79
+    }
+  ],
+  "totalAmount": 12.58
+}
+
+3. Get All Receipts
+	•	Endpoint: GET /api/receipts
+	•	Description: Retrieves all receipts in the database.
+	•	Response:
+	•	Status Code: 200 OK
+	•	Body: An array of receipts.
+
+[
+  {
+    "id": "605c72ef153207d4bc9a6c50",
+    "receiptNumber": "12345",
+    "date": "2025-02-09",
+    "vendor": "MONTANA RESTAURANT",
+    "expenses": [
+      {
+        "item": "CHICKEN BURGER",
+        "amount": 8.79
+      },
+      {
+        "item": "FRENCH FRIES",
+        "amount": 3.79
+      }
+    ],
+    "totalAmount": 12.58
+  },
+  {
+    "id": "605c72ef153207d4bc9a6c51",
+    "receiptNumber": "12346",
+    "date": "2025-02-09",
+    "vendor": "PIZZA PLACE",
+    "expenses": [
+      {
+        "item": "PIZZA",
+        "amount": 10.99
+      }
+    ],
+    "totalAmount": 10.99
+  }
+]
+
+4. Delete Receipt by ID
+	•	Endpoint: DELETE /api/receipts/{id}
+	•	Description: Deletes a receipt by its ID.
+	•	Path Parameter:
+	•	id: The unique ID of the receipt to delete.
+	•	Response:
+	•	Status Code: 204 No Content (Indicates successful deletion)
+
+5. Upload Image and Process Receipt
+	•	Endpoint: POST /api/receipts/upload-image
+	•	Description: Uploads an image file (receipt image), processes it using a Flask service to extract receipt data, and stores the receipt in the database.
+	•	Request Body: The image file should be sent as multipart/form-data with the key file.
+	•	The file parameter should be an image file (JPEG, PNG, etc.).
+	•	Response:
+	•	Status Code: 200 OK
+	•	Body: The processed Receipt object.
+
+{
+  "id": "605c72ef153207d4bc9a6c50",
+  "receiptNumber": "12345",
+  "date": "2025-02-09",
+  "vendor": "MONTANA RESTAURANT",
+  "expenses": [
+    {
+      "item": "CHICKEN BURGER",
+      "amount": 8.79
+    },
+    {
+      "item": "FRENCH FRIES",
+      "amount": 3.79
+    }
+  ],
+  "totalAmount": 12.58
+}
+
+Receipt Entity Class:
+
+This class represents the Receipt entity that is stored in the MongoDB database.
+	•	Fields:
+	•	id: Unique identifier for the receipt.
+	•	receiptNumber: Unique receipt number.
+	•	date: Date of the receipt.
+	•	vendor: Vendor name.
+	•	expenses: A list of Expense objects, each containing an item name and the amount.
+	•	totalAmount: Total amount of all expenses in the receipt.
+	•	Constructor:
+	•	Receipt(String receiptNumber, LocalDate date, String vendor, List<Expense> expenses): A constructor that initializes the fields, including calculating the total amount from the expenses.
+
+Expense Class (Assumed):
+
+The Expense class, which is part of the Receipt entity, likely contains the following fields:
+	•	item: Name of the item (e.g., “CHICKEN BURGER”).
+	•	amount: Amount of the expense for that item.
+
+Error Handling:
+	•	400 Bad Request: If the request body is invalid or missing required fields.
+	•	404 Not Found: When a GET request does not find the receipt with the specified ID.
+	•	500 Internal Server Error: For general server-side errors.
+
